@@ -1,34 +1,27 @@
-import { useNavigate } from "react-router-dom";
+import CreatorDashboard from "./creator/Dashboard";
+import AdvertiserDashboard from "./advertiser/Dashboard";
+
 import { useAuth } from "../context/AuthContext";
 
 export default function Dashboard() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
   if (!user) {
-    return <p>Loading dashboard...</p>;
+    return <p>Loading...</p>;
   }
 
-  function handleLogout() {
-    logout();
-    navigate("/login");
+  switch (user.type) {
+    case "creator":
+      return <CreatorDashboard />;
+
+    case "advertiser":
+      return <AdvertiserDashboard />;
+
+    default:
+      return (
+        <div style={{ padding: 40 }}>
+          Unknown account type: {user.type}
+        </div>
+      );
   }
-
-  return (
-    <div style={{ padding: 40 }}>
-      <h1>Dashboard</h1>
-
-      <p>
-        Welcome <strong>{user.name}</strong>
-      </p>
-
-      <p>Email: {user.email}</p>
-
-      <p>Role: {user.type}</p>
-
-      <button onClick={handleLogout}>
-        Logout
-      </button>
-    </div>
-  );
 }
