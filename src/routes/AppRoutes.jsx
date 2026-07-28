@@ -4,6 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import Login from "../pages/auth/Login";
 import Dashboard from "../pages/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
+import Profile from "../pages/creator/Profile";
+import MediaKit from "../pages/creator/MediaKit";
+import Bookings from "../pages/bookings/Bookings";
 
 function HomeRedirect() {
   const { user, loading } = useAuth();
@@ -23,6 +26,32 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomeRedirect />} />
 
+<Route
+  path="/creator/profile"
+  element={
+    <ProtectedRoute>
+      <Profile />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/creator/media-kit"
+  element={
+    <ProtectedRoute>
+      <MediaKit />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/bookings"
+  element={
+    <ProtectedRoute>
+      <Bookings />
+    </ProtectedRoute>
+  }
+/>
         <Route path="/login" element={<Login />} />
 
         <Route
