@@ -1,6 +1,7 @@
 import Layout from "../../components/layout/Layout";
 import PageHeader from "../../components/ui/PageHeader";
-
+import ImageUploader from "../../components/media-kit/ImageUploader";
+import api from "../../api/api";
 import CoverEditor from "../../components/media-kit/CoverEditor";
 import ProfilePhoto from "../../components/media-kit/ProfilePhoto";
 import AudienceCard from "../../components/media-kit/AudienceCard";
@@ -10,8 +11,53 @@ import PortfolioCard from "../../components/media-kit/PortfolioCard";
 import { useAuth } from "../../context/AuthContext";
 
 export default function MediaKit() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
+  async function saveImage(field, url) {
+  try {
+    const payload = {
+      profile_photo: user.profile_photo,
+      cover_photo: user.cover_photo,
+      name: user.name,
+      niche: user.niche,
+      audience_desc: user.audience_desc,
+      platforms: user.platforms,
+      total_reach: user.total_reach,
+      rate: user.rate,
+    };
+
+    payload[field] = url;
+
+    const res = await api.put("/auth/profile", payload);
+
+    updateUser(res.data.data);
+  } catch (err) {
+    console.error(err);
+  }
+}
+async function saveImage(field, url) {
+  try {
+    const payload = {
+      name: user.name,
+      niche: user.niche,
+      audience_desc: user.audience_desc,
+      platforms: user.platforms,
+      total_reach: user.total_reach,
+      rate: user.rate,
+      profile_photo: user.profile_photo,
+      cover_photo: user.cover_photo,
+    };
+
+    payload[field] = url;
+
+    const res = await api.put("/auth/profile", payload);
+
+    updateUser(res.data.data);
+
+  } catch (err) {
+    console.error(err);
+  }
+}
   return (
     <Layout>
       <PageHeader
@@ -21,6 +67,12 @@ export default function MediaKit() {
 
       <CoverEditor src={user?.cover_photo} />
 
+<ImageUploader
+  label="Upload Cover"
+  folder="covers"
+  onUploaded={(url) => saveImage("cover_photo", url)}
+/>
+
       <div
         style={{
           marginTop: -70,
@@ -29,6 +81,12 @@ export default function MediaKit() {
         }}
       >
         <ProfilePhoto src={user?.profile_photo} />
+
+<ImageUploader
+  label="Upload Profile Photo"
+  folder="profiles"
+  onUploaded={(url) => saveImage("profile_photo", url)}
+/>
       </div>
 
       <div

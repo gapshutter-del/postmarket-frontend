@@ -7,7 +7,7 @@ export default function ProfilePhoto({ src }) {
         borderRadius: "50%",
         overflow: "hidden",
         border: "5px solid white",
-        background: "#ddd",
+        background: "#d1d5db",
       }}
     >
       {src ? (
@@ -27,10 +27,10 @@ export default function ProfilePhoto({ src }) {
             height: "100%",
             display: "grid",
             placeItems: "center",
-            color: "#777",
+            fontSize: 42,
           }}
         >
-          No Photo
+          👤
         </div>
       )}
     </div>
