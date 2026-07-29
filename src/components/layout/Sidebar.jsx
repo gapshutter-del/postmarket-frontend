@@ -21,14 +21,28 @@ export default function Sidebar() {
       <hr />
 
       <nav
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 10,
-        }}
-      >
-        <Link to="/dashboard">Dashboard</Link>
-      </nav>
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+  }}
+>
+  <Link to="/dashboard">Dashboard</Link>
+
+  {user?.type === "creator" && (
+    <>
+      <Link to="/creator/profile">Creator Profile</Link>
+      <Link to="/creator/media-kit">Media Kit</Link>
+      <Link to="/bookings">Bookings</Link>
+    </>
+  )}
+
+  {user?.type === "advertiser" && (
+    <>
+      <Link to="/campaigns">Campaigns</Link>
+    </>
+  )}
+</nav>
     </aside>
   );
 }

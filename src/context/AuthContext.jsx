@@ -34,7 +34,9 @@ export function AuthProvider({ children }) {
     localStorage.setItem("token", jwt);
     setUser(userData);
   };
-
+ const updateUser = (userData) => {
+  setUser(userData);
+};
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
@@ -46,6 +48,7 @@ export function AuthProvider({ children }) {
         user,
         loading,
         login,
+        updateUser,
         logout,
       }}
     >
