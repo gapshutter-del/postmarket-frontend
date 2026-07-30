@@ -2,11 +2,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 import Login from "../pages/auth/Login";
+import Signup from "../pages/auth/Signup";
 import Dashboard from "../pages/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import Profile from "../pages/creator/Profile";
 import MediaKit from "../pages/creator/MediaKit";
 import Bookings from "../pages/bookings/Bookings";
+import DiscoverCreators from "../pages/advertiser/DiscoverCreators";
+import PublicMediaKit from "../pages/PublicMediaKit";
 
 function HomeRedirect() {
   const { user, loading } = useAuth();
@@ -54,6 +57,11 @@ export default function AppRoutes() {
 />
         <Route path="/login" element={<Login />} />
 
+<Route
+  path="/signup"
+  element={<Signup />}
+/>
+
         <Route
           path="/dashboard"
           element={
@@ -62,6 +70,23 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        
+        <Route
+  path="/advertiser/discover"
+  element={
+    <ProtectedRoute>
+      <DiscoverCreators />
+    </ProtectedRoute>
+  }
+/><Route
+  path="/creator/:ref"
+  element={
+    <ProtectedRoute>
+      <PublicMediaKit />
+    </ProtectedRoute>
+  }
+/>
+
       </Routes>
     </BrowserRouter>
   );

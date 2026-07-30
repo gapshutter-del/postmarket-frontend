@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import api from "../../api/api";
 import { useAuth } from "../../context/AuthContext";
@@ -86,6 +86,11 @@ login(token, user, supabaseSession);
         </p>
       )}
 
+<div style={{ marginTop: 20, textAlign: "center" }}>
+  <Link to="/signup">
+    Create a new account
+  </Link>
+</div>
     </div>
   );
 }
