@@ -26,9 +26,10 @@ export default function Login() {
       });
 
       const token = res.data.data.token;
-      const user = res.data.data.user;
+const user = res.data.data.user;
+const supabaseSession = res.data.data.supabaseSession;
 
-      login(token, user);
+login(token, user, supabaseSession);
 
       navigate("/");
 

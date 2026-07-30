@@ -2,6 +2,7 @@ import { uploadCreatorImage } from "../../api/storage";
 
 export default function ImageUploader({
   label,
+  bucket,
   folder,
   onUploaded,
 }) {
@@ -11,11 +12,23 @@ export default function ImageUploader({
     if (!file) return;
 
     try {
-      const url = await uploadCreatorImage(file, folder);
+       console.log("bucket =", bucket);
+console.log("folder =", folder);
+console.log("file =", file.name);
+
+      const url = await uploadCreatorImage(
+        file,
+        bucket,
+        folder
+      );
+
       onUploaded(url);
+
     } catch (err) {
+
       console.error(err);
       alert("Upload failed.");
+
     }
   }
 

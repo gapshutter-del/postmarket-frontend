@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import api from "../api/api";
+import { supabase } from "../supabase/client";
 
 const AuthContext = createContext();
 
@@ -30,10 +31,15 @@ export function AuthProvider({ children }) {
     loadUser();
   }, []);
 
-  const login = (jwt, userData) => {
-    localStorage.setItem("token", jwt);
-    setUser(userData);
-  };
+  const login = async (jwt, userData, supabaseSession) => {
+  localStorage.setItem("token", jwt);
+
+  if (supabaseSession) {
+    await supabase.auth.setSession(supabaseSession);
+  }
+
+  setUser(userData);
+};
  const updateUser = (userData) => {
   setUser(userData);
 };

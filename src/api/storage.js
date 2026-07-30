@@ -1,14 +1,17 @@
 import { supabase } from "../supabase/client";
 
-export async function uploadCreatorImage(file, folder) {
+export async function uploadCreatorImage(file, bucket, folder = "") {
   if (!file) return null;
 
   const extension = file.name.split(".").pop();
   const filename = `${Date.now()}.${extension}`;
-  const path = `${folder}/${filename}`;
+
+  const path = folder
+    ? `${folder}/${filename}`
+    : filename;
 
   const { error } = await supabase.storage
-    .from("creator-media")
+    .from(bucket)
     .upload(path, file);
 
   if (error) {
@@ -16,7 +19,7 @@ export async function uploadCreatorImage(file, folder) {
   }
 
   const { data } = supabase.storage
-    .from("creator-media")
+    .from(bucket)
     .getPublicUrl(path);
 
   return data.publicUrl;
