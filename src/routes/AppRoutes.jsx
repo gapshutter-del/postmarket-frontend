@@ -11,6 +11,8 @@ import Bookings from "../pages/bookings/Bookings";
 import DiscoverCreators from "../pages/advertiser/DiscoverCreators";
 import PublicMediaKit from "../pages/PublicMediaKit";
 
+import MyRoster from "../pages/advertiser/MyRoster";
+
 function HomeRedirect() {
   const { user, loading } = useAuth();
 
@@ -86,7 +88,14 @@ export default function AppRoutes() {
     </ProtectedRoute>
   }
 />
-
+<Route
+  path="/advertiser/roster"
+  element={
+    <ProtectedRoute>
+      <MyRoster />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
     </BrowserRouter>
   );
