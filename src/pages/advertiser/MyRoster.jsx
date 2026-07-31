@@ -47,6 +47,28 @@ export default function MyRoster() {
     loadRoster();
 
   }, []);
+async function removeCreator(creatorRef) {
+
+  try {
+
+    await api.delete(`/auth/favorites/${creatorRef}`);
+
+    setCreators(current =>
+      current.filter(
+        creator => creator.creator_ref !== creatorRef
+      )
+    );
+
+  } catch (err) {
+
+    console.error("REMOVE ERROR:");
+    console.error(err);
+
+    alert("Unable to remove creator.");
+
+  }
+
+}
 
   return (
     <div style={{ padding: 30 }}>
@@ -56,70 +78,101 @@ export default function MyRoster() {
       {loading && <p>Loading...</p>}
 
       {!loading && creators.length === 0 && (
-        <p>No creators saved yet.</p>
-      )}
 
-      {!loading && creators.map((favorite) => (
+  <div style={{ marginTop: 40 }}>
 
-        <div
-          key={favorite.id}
-          style={{
-            display: "flex",
-            gap: 20,
-            alignItems: "center",
-            border: "1px solid #ddd",
-            borderRadius: 10,
-            padding: 20,
-            marginBottom: 20
-          }}
-        >
+    <h2>Your roster is empty.</h2>
 
-          <img
-            src={
-              favorite.users?.profile_photo ||
-              "https://placehold.co/120x120?text=Creator"
-            }
-            alt={favorite.users?.name}
+    <p>
+      Browse creators and build your preferred roster.
+    </p>
+
+    <Link to="/advertiser/discover">
+      Discover Creators
+    </Link>
+
+  </div>
+
+)}
+
+      {!loading &&
+        creators.map((favorite) => (
+
+          <div
+            key={favorite.id}
             style={{
-              width: 100,
-              height: 100,
-              borderRadius: "50%",
-              objectFit: "cover"
+              display: "flex",
+              gap: 20,
+              alignItems: "center",
+              border: "1px solid #ddd",
+              borderRadius: 10,
+              padding: 20,
+              marginBottom: 20
             }}
-          />
+          >
 
-          <div style={{ flex: 1 }}>
-
-            <h2 style={{ margin: 0 }}>
-              {favorite.users?.name || "Unnamed Creator"}
-            </h2>
-
-            <p>
-              <strong>Niche:</strong> {favorite.users?.niche}
-            </p>
-
-            <p>
-              👥 {formatReach(favorite.users?.total_reach)}
-            </p>
-
-            <p
+            <img
+              src={
+                favorite.users?.profile_photo ||
+                "https://placehold.co/120x120?text=Creator"
+              }
+              alt={favorite.users?.name}
               style={{
-                color: "#0a7",
-                fontWeight: "bold"
+                width: 100,
+                height: 100,
+                borderRadius: "50%",
+                objectFit: "cover"
               }}
-            >
-              R {favorite.users?.rate}
-            </p>
+            />
 
-            <Link to={`/creator/${favorite.creator_ref}`}>
-              View Media Kit
-            </Link>
+            <div style={{ flex: 1 }}>
+
+              <h2 style={{ margin: 0 }}>
+                {favorite.users?.name || "Unnamed Creator"}
+              </h2>
+
+              <p>
+                <strong>Niche:</strong> {favorite.users?.niche}
+              </p>
+
+              <p>
+                👥 {formatReach(favorite.users?.total_reach)}
+              </p>
+
+              <p
+                style={{
+                  color: "#0a7",
+                  fontWeight: "bold"
+                }}
+              >
+                R {favorite.users?.rate}
+              </p>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: 12,
+                  marginTop: 15
+                }}
+              >
+
+                <Link to={`/creator/${favorite.creator_ref}`}>
+                  View Media Kit
+                </Link>
+
+                <button
+                  onClick={() => removeCreator(favorite.creator_ref)}
+                >
+                  Remove
+                </button>
+
+              </div>
+
+            </div>
 
           </div>
 
-        </div>
-
-      ))}
+        ))}
 
     </div>
   );
