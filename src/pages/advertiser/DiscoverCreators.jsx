@@ -4,16 +4,36 @@ import api from "../../api/api";
 
 export default function DiscoverCreators() {
   const [creators, setCreators] = useState([]);
+const [roster, setRoster] = useState(new Set());
 
   useEffect(() => {
     async function loadCreators() {
-      try {
-        const res = await api.get("/auth/creators");
-        setCreators(res.data.data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
+  try {
+
+   const res = await api.get("/auth/creators");
+
+const allCreators = res.data.data || [];
+
+    const rosterRes = await api.get("/auth/favorites");
+
+    const rosterIds = new Set(
+  (rosterRes.data.data || []).map(
+    favorite => favorite.creator_ref
+  )
+);
+
+setRoster(rosterIds);
+
+const availableCreators = allCreators.filter(
+  creator => !rosterIds.has(creator.ref)
+);
+
+setCreators(availableCreators);
+
+  } catch (err) {
+    console.error(err);
+  }
+}
 
     loadCreators();
   }, []);
@@ -31,7 +51,11 @@ export default function DiscoverCreators() {
           marginTop: 30,
         }}
       >
-        {creators.map((creator) => (
+        {creators.map((creator) => {
+
+  const inRoster = roster.has(creator.ref);
+
+  return (
           <div
             key={creator.ref}
             style={{
@@ -55,7 +79,32 @@ export default function DiscoverCreators() {
             />
 
             <div style={{ padding: 20 }}>
-              <h3>{creator.name}</h3>
+              <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  }}
+>
+
+  <h3>{creator.name}</h3>
+
+  {inRoster && (
+    <span
+      style={{
+        background: "#dcfce7",
+        color: "#166534",
+        padding: "4px 10px",
+        borderRadius: 999,
+        fontSize: 12,
+        fontWeight: "bold"
+      }}
+    >
+      ✓ In Roster
+    </span>
+  )}
+
+</div>
 
               <p>{creator.niche}</p>
 
@@ -105,34 +154,58 @@ export default function DiscoverCreators() {
   </Link>
 
   <button
-    onClick={async () => {
+  onClick={async () => {
 
-      try {
+    try {
+
+      if (inRoster) {
+
+        await api.delete(`/auth/favorites/${creator.ref}`);
+
+        const updated = new Set(roster);
+        updated.delete(creator.ref);
+        setRoster(updated);
+
+      } else {
 
         await api.post("/auth/favorites", {
           creator_ref: creator.ref
         });
 
-        alert("Creator saved to your roster.");
+        const updated = new Set(roster);
+        updated.add(creator.ref);
+        setRoster(updated);
 
-      } catch (err) {
-
-        console.error(err);
-
-        alert("Unable to save creator.");
+        setCreators(
+  current =>
+    current.filter(
+      c => c.ref !== creator.ref
+    )
+);
 
       }
 
-    }}
-  >
-    Save Creator
-  </button>
+    } catch (err) {
+
+      console.error(err);
+
+    }
+
+  }}
+>
+
+  {inRoster ? "Remove from Roster" : "Save Creator"}
+
+</button>
+
 
 </div>
             </div>
-          </div>
+                    </div>
 
-))}
+        );
+
+      })}
 
       </div>
 
