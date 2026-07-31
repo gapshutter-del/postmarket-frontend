@@ -90,14 +90,14 @@ export default function DiscoverCreators() {
                   </span>
                 ))}
               </div>
-              <div style={{ marginTop: 20 }}>
-  <div
+              <div
   style={{
     display: "flex",
     gap: 10,
     marginTop: 20,
   }}
 >
+
   <Link to={`/creator/${creator.ref}`}>
     <button>
       View Media Kit
@@ -129,11 +129,13 @@ export default function DiscoverCreators() {
   </button>
 
 </div>
-</div>
             </div>
           </div>
-        ))}
+
+))}
+
       </div>
+
     </div>
   );
 }
