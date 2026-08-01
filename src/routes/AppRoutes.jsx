@@ -5,6 +5,7 @@ import CreatorLanding from "../pages/public/CreatorLanding";
 
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
+import SignupChoice from "../pages/auth/SignupChoice";
 import CreatorDashboard from "../pages/creator/CreatorDashboard";
 import AdvertiserDashboard from "../pages/advertiser/AdvertiserDashboard";
 import ProtectedRoute from "./ProtectedRoute";
@@ -68,10 +69,10 @@ export default function AppRoutes() {
 
         <Route path="/login" element={<Login />} />
 
-<Route
-  path="/signup"
-  element={<Signup />}
-/>
+<Route path="/signup" element={<SignupChoice />} />
+<Route path="/signup/creator" element={<Signup userType="creator" />} />
+<Route path="/signup/advertiser" element={<Signup userType="advertiser" />} />
+
 
         <Route
   path="/creator/dashboard"

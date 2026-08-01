@@ -1,18 +1,30 @@
+import { useMemo } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import api from "../../api/api";
 
-export default function Signup() {
-
+export default function Signup({ userType }) {
+  
+  const copy = useMemo(() => {
+  return userType === "creator"
+    ? {
+        title: "Create your Creator account",
+        subtitle: "Start building your professional presence.",
+      }
+    : {
+        title: "Create your Advertiser account",
+        subtitle: "Start discovering creators.",
+      };
+}, [userType]);
+  
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    type: "creator",
-  });
+  name: "",
+  email: "",
+  password: "",
+});
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -35,7 +47,10 @@ export default function Signup() {
 
     try {
 
-      await api.post("/auth/signup", form);
+      const res = await api.post("/auth/signup", {
+  ...form,
+  type: userType,
+});
 
       alert("Account created successfully.");
 
@@ -58,18 +73,52 @@ export default function Signup() {
 
   }
 
-  return (
-
+ return (
+  <div
+    style={{
+      maxWidth: 420,
+      margin: "80px auto",
+    }}
+  >
     <div
       style={{
-        maxWidth: 420,
-        margin: "80px auto",
+        marginBottom: 24,
+        padding: "12px 16px",
+        borderRadius: 10,
+        background: "#F7F2EA",
+        border: "1px solid #E5DDD2",
       }}
     >
+      <strong>
+        {userType === "creator" ? "Creator" : "Advertiser"}
+      </strong>
+      {" → "}Account Setup
+    </div>
 
-      <h2>Create Account</h2>
+    <h2>{copy.title}</h2>
 
-      <form onSubmit={handleSubmit}>
+    <p
+      style={{
+        color: "#6B7280",
+        marginBottom: 32,
+      }}
+    >
+      {copy.subtitle}
+    </p>
+
+<p
+  onClick={() => navigate("/signup")}
+  style={{
+    marginBottom: 24,
+    color: "#A56A43",
+    cursor: "pointer",
+    fontWeight: 600,
+  }}
+>
+  ← Choose a different account type
+</p>
+
+    <form onSubmit={handleSubmit}>
 
         <input
           name="name"
@@ -97,27 +146,17 @@ export default function Signup() {
           style={{ width: "100%", marginBottom: 12 }}
         />
 
-        <select
-          name="type"
-          value={form.type}
-          onChange={handleChange}
-          style={{ width: "100%", marginBottom: 20 }}
-        >
-          <option value="creator">
-            Creator
-          </option>
-
-          <option value="advertiser">
-            Advertiser
-          </option>
-        </select>
 
         <button
           type="submit"
           disabled={loading}
           style={{ width: "100%" }}
         >
-          {loading ? "Creating..." : "Create Account"}
+          {loading
+  ? "Creating..."
+  : userType === "creator"
+    ? "Create Creator Account"
+    : "Create Advertiser Account"}
         </button>
 
       </form>
