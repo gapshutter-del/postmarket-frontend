@@ -20,24 +20,25 @@ export default function HeroStatement({
       }}
     >
       <p
-        style={{
-          fontFamily: "Inter",
-          color: "#6F685F",
-          marginBottom: 12,
-        }}
-      >
-        {greeting}, {name}.
-      </p>
+  style={{
+    fontFamily: "Inter",
+    color: "#6F685F",
+    marginBottom: 12,
+  }}
+>
+  {greeting}, {name}.
+</p>
 
       <h1
         style={{
-          fontFamily: "Playfair Display",
-          fontWeight: 600,
-          fontSize: "3rem",
-          color: "#2F2A25",
-          lineHeight: 1.15,
-          marginBottom: 24,
-        }}
+  fontFamily: "Playfair Display",
+  fontWeight: 600,
+  fontSize: "3.5rem",
+  letterSpacing: "-0.03em",
+  color: "#2F2A25",
+  lineHeight: 1.15,
+  marginBottom: 24,
+}}
       >
         {headline}
       </h1>
@@ -65,20 +66,17 @@ export default function HeroStatement({
           style={{
             fontFamily: "Inter",
             color: "#4D463F",
-            marginBottom: 20,
+            marginBottom: 0,
           }}
         >
-          Your profile is <strong>{profileCompletion}% complete.</strong>
+          You're {profileCompletion}% of the way there.
 
-          <br />
+<br />
 
-          One more step and advertisers will see your strongest professional
-          self.
+Complete your profile and give advertisers your strongest first impression.
         </p>
 
-        <Button onClick={onAction}>
-          {ctaText}
-        </Button>
+       
       </div>
     </section>
   );
