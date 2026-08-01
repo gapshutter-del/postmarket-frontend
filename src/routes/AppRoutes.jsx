@@ -3,7 +3,8 @@ import { useAuth } from "../context/AuthContext";
 
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
-import Dashboard from "../pages/Dashboard";
+import CreatorDashboard from "../pages/creator/CreatorDashboard";
+import AdvertiserDashboard from "../pages/advertiser/AdvertiserDashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import Profile from "../pages/creator/Profile";
 import MediaKit from "../pages/creator/MediaKit";
@@ -21,7 +22,7 @@ function HomeRedirect() {
   }
 
   return user
-    ? <Navigate to="/dashboard" replace />
+    ? <Navigate to="/creator/dashboard" replace />
     : <Navigate to="/login" replace />;
 }
 
@@ -65,14 +66,14 @@ export default function AppRoutes() {
 />
 
         <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        
+  path="/creator/dashboard"
+  element={
+    <ProtectedRoute>
+      <CreatorDashboard />
+    </ProtectedRoute>
+  }
+/>
+
         <Route
   path="/advertiser/discover"
   element={

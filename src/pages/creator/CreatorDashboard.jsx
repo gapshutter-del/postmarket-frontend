@@ -1,3 +1,4 @@
+import HeroStatement from "../../components/ui/HeroStatement";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import PageHeader from "../../components/ui/PageHeader";
@@ -31,7 +32,15 @@ const completion = Math.round(
   title={`Welcome, ${user.name}`}
   subtitle={`Profile Completion: ${completion}%`}
 />
-
+<HeroStatement
+  greeting="Good evening"
+  name="Sarah"
+  headline="You're building a reputation worth noticing."
+  message="Five advertisers have saved your profile this week. Keep showing them why."
+  profileCompletion={82}
+  ctaText="Complete Profile"
+  onAction={() => {}}
+/>
       <div
         style={{
           display: "grid",
