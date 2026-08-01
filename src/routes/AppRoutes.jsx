@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+import CreatorLanding from "../pages/public/CreatorLanding";
+
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import CreatorDashboard from "../pages/creator/CreatorDashboard";
@@ -58,6 +60,12 @@ export default function AppRoutes() {
     </ProtectedRoute>
   }
 />
+
+<Route
+  path="/creators"
+  element={<CreatorLanding />}
+/>
+
         <Route path="/login" element={<Login />} />
 
 <Route
