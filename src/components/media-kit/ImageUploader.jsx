@@ -32,23 +32,37 @@ console.log("file =", file.name);
     }
   }
 
-  return (
-    <div style={{ marginBottom: 20 }}>
-      <label
-        style={{
-          display: "block",
-          marginBottom: 8,
-          fontWeight: 600,
-        }}
-      >
-        {label}
-      </label>
+ return (
+  <div
+    style={{
+      marginBottom: 20,
+      textAlign: "center",
+    }}
+  >
+    <label
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "8px 16px",
+        background: "#A56A43",
+        color: "#fff",
+        borderRadius: 10,
+        cursor: "pointer",
+        fontWeight: 600,
+        fontSize: 14,
+        transition: "0.2s",
+      }}
+    >
+      {label.replace("Upload", "Update")}
 
       <input
         type="file"
         accept="image/*"
         onChange={handleFile}
+        style={{ display: "none" }}
       />
-    </div>
-  );
+    </label>
+  </div>
+);
 }

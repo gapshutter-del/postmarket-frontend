@@ -10,10 +10,25 @@ import { useAuth } from "../../context/AuthContext";
 export default function CreatorDashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const hour = new Date().getHours();
+
+let greeting = "Good morning";
+
+if (hour >= 12 && hour < 18) {
+  greeting = "Good afternoon";
+} else if (hour >= 18) {
+  greeting = "Good evening";
+}
+
 const profileFields = [
+  user.profile_photo,
+  user.cover_photo,
   user.name,
-  user.email,
+  user.bio,
   user.niche,
+  user.city,
+  user.province,
   user.audience_desc,
   user.platforms?.length,
   user.total_reach,
@@ -25,11 +40,33 @@ const completed = profileFields.filter(Boolean).length;
 const completion = Math.round(
   (completed / profileFields.length) * 100
 );
+
+const status = user.profile_status || "draft";
+
+const statusConfig = {
+  draft: {
+    color: "#D97706",
+    title: "Draft",
+    message: "Complete your profile before submitting it for review.",
+  },
+  pending: {
+    color: "#2563EB",
+    title: "Pending Review",
+    message: "Your profile is being reviewed by the PostMarket team.",
+  },
+  approved: {
+    color: "#15803D",
+    title: "Approved",
+    message: "Your creator profile is live and visible to advertisers.",
+  },
+};
+
+
   return (
     <Layout>
       
 <HeroStatement
-  greeting="Good morning"
+   greeting={greeting}
   name={user.name}
   headline="You're building something worth noticing."
   message="Advertisers discover creators who invest in their profile first."
@@ -37,6 +74,31 @@ const completion = Math.round(
   ctaText="Complete Profile"
   onAction={() => navigate("/creator/profile")}
 />
+
+<Card
+  style={{
+    borderLeft: `6px solid ${statusConfig[status].color}`,
+    marginBottom: 24,
+  }}
+>
+  <h3
+    style={{
+      margin: 0,
+      color: statusConfig[status].color,
+    }}
+  >
+    {statusConfig[status].title}
+  </h3>
+
+  <p
+    style={{
+      marginTop: 8,
+      marginBottom: 0,
+    }}
+  >
+    {statusConfig[status].message}
+  </p>
+</Card>
 
  <div
       style={{
