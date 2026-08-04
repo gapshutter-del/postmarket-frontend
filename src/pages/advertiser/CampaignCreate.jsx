@@ -3,13 +3,18 @@ import Layout from "../../components/layout/Layout";
 import PageHeader from "../../components/ui/PageHeader";
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
+import { useNavigate } from "react-router-dom";
+import api from "../../api/api";
 
 export default function CampaignCreate() {
+      const navigate = useNavigate();
+
   const [form, setForm] = useState({
     title: "",
     objective: "",
     caption: "",
     notes: "",
+
   });
 
   function handleChange(e) {
@@ -19,6 +24,36 @@ export default function CampaignCreate() {
     });
   }
 
+  async function handleSubmit(e) {
+  e.preventDefault();
+
+  try {
+    const res = await api.post("/campaigns", form);
+
+    navigate(`/advertiser/campaign/${res.data.data.campaign_ref}`);
+
+  } catch (err) {
+    console.error(err);
+    alert("Unable to create campaign.");
+  }
+}
+
+  async function handleSubmit(e) {
+  e.preventDefault();
+
+  try {
+    const res = await api.post("/campaigns", form);
+
+    navigate(
+      `/advertiser/campaign/${res.data.data.campaign_ref}`
+    );
+
+  } catch (err) {
+    console.error(err);
+    alert("Unable to create campaign.");
+  }
+}
+
   return (
     <Layout>
       <PageHeader
@@ -27,6 +62,7 @@ export default function CampaignCreate() {
       />
 
       <form
+  onSubmit={handleSubmit}
         style={{
           display: "grid",
           gap: 24,
@@ -81,9 +117,9 @@ export default function CampaignCreate() {
             justifyContent: "flex-end",
           }}
         >
-          <Button>
-            Continue →
-          </Button>
+          <Button type="submit">
+  Continue →
+</Button>
         </div>
 
       </form>

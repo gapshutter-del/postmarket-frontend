@@ -2,7 +2,12 @@ import Layout from "../../components/layout/Layout";
 import PageHeader from "../../components/ui/PageHeader";
 import Card from "../../components/ui/Card";
 
+import { useParams } from "react-router-dom";
+
 export default function CampaignWorkspace() {
+ 
+  const { campaignRef } = useParams();
+ 
   return (
     <Layout>
       <PageHeader
@@ -54,7 +59,7 @@ export default function CampaignWorkspace() {
             <p>
               <strong>Reference</strong>
               <br />
-              CMP-...
+             {campaignRef}
             </p>
 
             <p>
