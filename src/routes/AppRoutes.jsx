@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import CreatorLanding from "../pages/public/CreatorLanding";
 
 import CampaignWorkspace from "../pages/advertiser/CampaignWorkspace";
-
+import CampaignCreate from "../pages/advertiser/CampaignCreate";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import SignupChoice from "../pages/auth/SignupChoice";
@@ -92,6 +92,15 @@ export default function AppRoutes() {
   element={
     <ProtectedRoute>
       <AdvertiserDashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/advertiser/campaign/create"
+  element={
+    <ProtectedRoute>
+      <CampaignCreate />
     </ProtectedRoute>
   }
 />
