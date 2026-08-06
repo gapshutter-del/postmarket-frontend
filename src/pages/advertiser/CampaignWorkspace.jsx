@@ -26,8 +26,6 @@ export default function CampaignWorkspace() {
 const [creatingSlot, setCreatingSlot] = useState(false);
 
 const [schedule, setSchedule] = useState({
-
-  const :[generatedSchedule, setGeneratedSchedule] = useState([]),
   start_date: "",
   end_date: "",
   cadence: "weekly",
@@ -242,125 +240,6 @@ async function assignCreators() {
       }
     );
 
-    function generateSchedule() {
-
-  if (
-    !schedule.start_date ||
-    !schedule.end_date ||
-    schedule.windows.length === 0
-  ) {
-    setGeneratedSchedule([]);
-    return;
-  }
-
-  const events = [];
-
-  const start = new Date(schedule.start_date);
-  const end = new Date(schedule.end_date);
-
-  const current = new Date(start);
-
-  while (current <= end) {
-
-    const weekday = current.toLocaleDateString(
-      "en-US",
-      { weekday: "short" }
-    );
-
-    if (
-      schedule.cadence === "daily" ||
-      schedule.weekdays.includes(weekday)
-    ) {
-
-      schedule.windows.forEach((windowId) => {
-
-        const window = WINDOW_TEMPLATES.find(
-          w => w.id === windowId
-        );
-
-        if (!window) return;
-
-        window.slots.forEach((slot) => {
-
-          events.push({
-            date: current.toISOString().slice(0,10),
-            time: slot,
-            window: window.name,
-          });
-
-        });
-
-      });
-
-    }
-
-    current.setDate(current.getDate() + 1);
-
-  }
-
-  setGeneratedSchedule(events);
-
-}
-
-function generateSchedule() {
-
-  if (
-    !schedule.start_date ||
-    !schedule.end_date ||
-    schedule.windows.length === 0
-  ) {
-    setGeneratedSchedule([]);
-    return;
-  }
-
-  const events = [];
-
-  const start = new Date(schedule.start_date);
-  const end = new Date(schedule.end_date);
-
-  const current = new Date(start);
-
-  while (current <= end) {
-
-    const weekday = current.toLocaleDateString(
-      "en-US",
-      { weekday: "short" }
-    );
-
-    if (
-      schedule.cadence === "daily" ||
-      schedule.weekdays.includes(weekday)
-    ) {
-
-      schedule.windows.forEach((windowId) => {
-
-        const window = WINDOW_TEMPLATES.find(
-          w => w.id === windowId
-        );
-
-        if (!window) return;
-
-        window.slots.forEach((slot) => {
-
-          events.push({
-            date: current.toISOString().slice(0, 10),
-            window: window.name,
-            time: slot,
-          });
-
-        });
-
-      });
-
-    }
-
-    current.setDate(current.getDate() + 1);
-
-  }
-
-  setGeneratedSchedule(events);
-
-}
 
     const activityRes = await api.get(
       `/campaigns/${campaignRef}/activity`
